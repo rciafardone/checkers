@@ -63,15 +63,51 @@ public class CheckersApp extends Application
         // Top 3 rows get Black pieces
         if (row < 3)
         {
-            return new GamePiece(PieceType.BLACK, row, col, SQUARE_SIZE);
+            return new GamePiece(this, PieceType.BLACK, row, col, SQUARE_SIZE);
         }
 
         // Bottom 3 rows get Red pieces
         if (row > 4)
         {
-            return new GamePiece(PieceType.RED, row, col, SQUARE_SIZE);
+            return new GamePiece(this, PieceType.RED, row, col, SQUARE_SIZE);
         }
 
         return null;
     }
+
+    public GamePiece getPieceAt(int row, int col)
+    {
+        return pieceMap[row][col];
+    }
+
+    public void movePieceInMatrix(int oldRow, int oldCol, int newRow, int newCol)
+    {
+    // 1. Grab the piece currently sitting at the old position
+    GamePiece piece = pieceMap[oldRow][oldCol];
+
+    // 2. Clear out the old position in the matrix so it becomes null (empty)
+    pieceMap[oldRow][oldCol] = null;
+
+    // 3. Place that piece into the new target position in the matrix
+    pieceMap[newRow][newCol] = piece;
+    }
+
+    public void removePieceFromBoard(int row, int col)
+    {
+        GamePiece pieceToRemove = pieceMap[row][col];
+
+        if (pieceToRemove != null)
+        {
+            // 1. Clear it out of our backend tracking array
+            pieceMap[row][col] = null;
+
+            // 2. Remove its visual circle from the JavaFX rendering group
+            pieceGroup.getChildren().remove(pieceToRemove);
+        }
+    }
+
+
+    /******************************************THIS IS THE END********************************************************/
+    /******************************************THIS IS THE END********************************************************/
+    /******************************************THIS IS THE END********************************************************/
 }
